@@ -14,9 +14,16 @@ valores_romanos = {
     1000: 'M'
 }
 
+def valida_numero(n):
+    if not isinstance(n, int):
+        raise TypeError(f"{n} debe ser de tipo int")
 
-# 36 -> XXXVI
+    if n <= 0:
+        raise ValueError(f"{n} debe ser un entero positivo")
+        
+
 def arabigo_a_romano(n):
+    valida_numero(n)
     romano = ''
     resto = None
 
@@ -31,3 +38,17 @@ def arabigo_a_romano(n):
         n = resto
     
     return romano
+
+def romano_a_arabigo(cadena):
+    resultado = 0
+    
+
+    for ix in range(len(cadena)-1):
+        letra = cadena[ix]
+        siguiente = cadena[ix + 1]
+        if d[letra] >= d[siguiente]:
+            resultado += d[letra]
+        else:
+            resultado -= d[letra]
+
+    resultado += d[len(cadena)-1]
