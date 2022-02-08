@@ -52,18 +52,41 @@ def arabigo_a_romano(n):
         n = resto
     
     return romano
+"""
+def valida_repes(cadena):
+    if 'IIII' in cadena or \
+       'VV' in 
+"""
 
 def romano_a_arabigo(cadena):
-
     resultado = 0
+    cont_repeticiones = 0
+
     for ix in range(len(cadena) - 1):
         letra = cadena[ix]
         siguiente = cadena[ix + 1]
 
+        #comprobar repeticiones
+        if letra == siguiente:
+            cont_repeticiones += 1
+        else:
+            cont_repeticiones = 0
+
+        """
+        if letra in 'VLD' and cont_repeticiones > 0 or cont_repeticiones > 2:
+            raise RomanError(f"Error de sintaxis. Demasiadas repeticiones de {letra}")
+        """
+        
+        if letra in 'VLD' and cont_repeticiones > 0:
+            raise RomanError(f"Error de sintaxis. Demasiadas repeticiones de {letra}")
+        elif cont_repeticiones > 2:
+            raise RomanError(f"Error de sintaxis. Demasiadas repeticiones de {letra}")
 
         if simbolos_romanos[letra] >= simbolos_romanos[siguiente]:
             resultado += simbolos_romanos[letra]
         else:
+            if letra in 'VLD':
+                raise RomanError(f"Error de sintaxis. {letra} no puede restar")
             resultado -= simbolos_romanos[letra]
 
     resultado += simbolos_romanos[cadena[-1]]
