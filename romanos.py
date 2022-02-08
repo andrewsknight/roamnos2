@@ -1,3 +1,6 @@
+class RomanError(Exception):
+    pass
+
 valores_romanos = {
     1: 'I',
     4: 'IV',
@@ -13,6 +16,17 @@ valores_romanos = {
     900: 'CM',
     1000: 'M'
 }
+
+simbolos_romanos = {
+    'I': 1,
+    'V': 5,
+    'X': 10,
+    'L': 50,
+    'C': 100,
+    'D': 500,
+    'M': 1000
+}
+
 
 def valida_numero(n):
     if not isinstance(n, int):
@@ -40,15 +54,17 @@ def arabigo_a_romano(n):
     return romano
 
 def romano_a_arabigo(cadena):
-    resultado = 0
-    
 
-    for ix in range(len(cadena)-1):
+    resultado = 0
+    for ix in range(len(cadena) - 1):
         letra = cadena[ix]
         siguiente = cadena[ix + 1]
-        if d[letra] >= d[siguiente]:
-            resultado += d[letra]
-        else:
-            resultado -= d[letra]
 
-    resultado += d[len(cadena)-1]
+
+        if simbolos_romanos[letra] >= simbolos_romanos[siguiente]:
+            resultado += simbolos_romanos[letra]
+        else:
+            resultado -= simbolos_romanos[letra]
+
+    resultado += simbolos_romanos[cadena[-1]]
+    return resultado
