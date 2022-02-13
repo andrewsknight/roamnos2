@@ -1,3 +1,6 @@
+from re import I
+
+
 class RomanError(Exception):
     pass
 
@@ -69,14 +72,11 @@ def romano_a_arabigo(cadena):
         #comprobar repeticiones
         if letra == siguiente:
             cont_repeticiones += 1
+        elif simbolos_romanos[letra] < simbolos_romanos[siguiente] and cont_repeticiones> 0:
+            raise RomanError(f"Error de sintaxis. Demasiadas repeticiones de {letra}")
         else:
             cont_repeticiones = 0
 
-        """
-        if letra in 'VLD' and cont_repeticiones > 0 or cont_repeticiones > 2:
-            raise RomanError(f"Error de sintaxis. Demasiadas repeticiones de {letra}")
-        """
-        
         if letra in 'VLD' and cont_repeticiones > 0:
             raise RomanError(f"Error de sintaxis. Demasiadas repeticiones de {letra}")
         elif cont_repeticiones > 2:
@@ -87,6 +87,15 @@ def romano_a_arabigo(cadena):
         else:
             if letra in 'VLD':
                 raise RomanError(f"Error de sintaxis. {letra} no puede restar")
+            elif letra == "I" and siguiente not in ("XV"):
+                raise RomanError(f"Error de sintaxis {letra}{siguiente} no permitido")
+            elif letra == "x" and siguiente not in ("LC"):
+                raise RomanError(f"Error de sintaxis {letra}{siguiente} no permitido")
+            elif letra == "x" and siguiente not in ("DM"):
+                raise RomanError(f"Error de sintaxis {letra}{siguiente} no permitido")
+
+                
+                
             resultado -= simbolos_romanos[letra]
 
     resultado += simbolos_romanos[cadena[-1]]
